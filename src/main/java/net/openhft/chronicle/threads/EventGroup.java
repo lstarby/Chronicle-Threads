@@ -25,6 +25,7 @@ import net.openhft.chronicle.core.threads.EventLoop;
 import net.openhft.chronicle.core.threads.HandlerPriority;
 import net.openhft.chronicle.core.threads.InvalidEventHandlerException;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.EnumSet;
@@ -49,7 +50,9 @@ public class EventGroup
     private final AtomicInteger counter = new AtomicInteger();
     @NotNull
     private final EventLoop monitor;
+    @Nullable
     private final CoreEventLoop core;
+    @Nullable
     private final BlockingEventLoop blocking;
     @NotNull
     private final Pauser pauser;
@@ -62,7 +65,7 @@ public class EventGroup
     private final VanillaEventLoop[] concThreads;
     private final MilliPauser milliPauser = Pauser.millis(50);
     private final boolean daemon;
-
+    @Nullable
     private VanillaEventLoop replication;
 
     /**

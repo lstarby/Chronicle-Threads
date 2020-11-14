@@ -18,6 +18,7 @@
 package net.openhft.chronicle.threads;
 
 import net.openhft.chronicle.core.Jvm;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.Closeable;
 import java.io.File;
@@ -43,6 +44,7 @@ public enum DiskSpaceMonitor implements Runnable, Closeable {
     private static final boolean DISABLED = Jvm.getBoolean("chronicle.disk.monitor.disable");
     final Map<String, FileStore> fileStoreCacheMap = new ConcurrentHashMap<>();
     final Map<FileStore, DiskAttributes> diskAttributesMap = new ConcurrentHashMap<>();
+    @Nullable
     final ScheduledExecutorService executor;
     private int thresholdPercentage;
 

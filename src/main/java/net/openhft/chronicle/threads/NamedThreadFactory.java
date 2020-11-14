@@ -22,6 +22,7 @@ import net.openhft.chronicle.core.StackTrace;
 import net.openhft.chronicle.core.threads.CleaningThread;
 import net.openhft.chronicle.core.threads.ThreadDump;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -29,8 +30,11 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class NamedThreadFactory extends ThreadGroup implements ThreadFactory {
     private final AtomicInteger id = new AtomicInteger();
     private final String name;
+    @Nullable
     private final Boolean daemon;
+    @Nullable
     private final Integer priority;
+    @Nullable
     private final StackTrace createdHere;
 
     public NamedThreadFactory(String name) {
@@ -41,7 +45,7 @@ public class NamedThreadFactory extends ThreadGroup implements ThreadFactory {
         this(name, daemon, null);
     }
 
-    public NamedThreadFactory(String name, Boolean daemon, Integer priority) {
+    public NamedThreadFactory(String name, @Nullable Boolean daemon, @Nullable Integer priority) {
         super(name);
         this.name = name;
         this.daemon = daemon;
@@ -55,7 +59,8 @@ public class NamedThreadFactory extends ThreadGroup implements ThreadFactory {
         int id = this.id.getAndIncrement();
         String nameN = Threads.threadGroupPrefix() + (id == 0 ? this.name : (this.name + '-' + id));
         Thread t = new CleaningThread(r, nameN);
-        ThreadDump.add(t, createdHere);
+        if (createdHere != null)
+            ThreadDump.add(t, createdHere);
         if (daemon != null)
             t.setDaemon(daemon);
         if (priority != null)

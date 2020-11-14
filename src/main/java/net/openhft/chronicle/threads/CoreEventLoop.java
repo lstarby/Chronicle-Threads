@@ -19,10 +19,12 @@ package net.openhft.chronicle.threads;
 
 import net.openhft.chronicle.core.threads.EventLoop;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.function.BooleanSupplier;
 
 public interface CoreEventLoop extends EventLoop {
+    @Nullable
     Thread thread();
 
     long loopStartMS();
